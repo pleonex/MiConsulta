@@ -69,7 +69,7 @@ namespace MiConsulta
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (patientDetails1.Patient.Edited)
+            if (patientDetails1.Patient.IsEdited)
             {
                 DialogResult ask = MessageBox.Show("Los datos del paciente han sido modificados pero no guardados.\n" +
                     "¿Desea guardarlos antes de salir?", "Datos no guardados", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
@@ -133,7 +133,7 @@ namespace MiConsulta
         }
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            if (patientDetails1.Patient.Edited)
+            if (patientDetails1.Patient.IsEdited)
             {
                 DialogResult ask = MessageBox.Show("Los datos del paciente han sido modificados pero no guardados.\n" +
                     "¿Desea continuar con la búsqueda?", "Datos no guardados", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
@@ -160,14 +160,14 @@ namespace MiConsulta
 
         private void btnAddPerson_Click(object sender, EventArgs e)
         {
-            if (patientDetails1.Patient.Null)
+            if (patientDetails1.Patient.IsNull)
             {
                 MessageBox.Show("Por favor rellene al menos los campos de nº de historia y nombre.", "Paciente vacío", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             currId = db.Add(patientDetails1.Patient);
-            patientDetails1.Patient.Edited = false;
+            patientDetails1.Patient.IsEdited = false;
             Save_DB();
 
             btnRemovePerson.Enabled = true;
@@ -177,14 +177,14 @@ namespace MiConsulta
         }
         private void btnSavePerson_Click(object sender, EventArgs e)
         {
-            if (patientDetails1.Patient.Null)
+            if (patientDetails1.Patient.IsNull)
             {
                 MessageBox.Show("Por favor rellene al menos los campos de nº de historia y nombre.", "Paciente vacío", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             db.Modify(currId, patientDetails1.Patient);
-            patientDetails1.Patient.Edited = false;
+            patientDetails1.Patient.IsEdited = false;
             Save_DB();
         }
         private void btnRemovePerson_Click(object sender, EventArgs e)
@@ -205,7 +205,7 @@ namespace MiConsulta
         }
         private void btnCleanFields_Click(object sender, EventArgs e)
         {
-            if (patientDetails1.Patient.Edited)
+            if (patientDetails1.Patient.IsEdited)
             {
                 DialogResult ask = MessageBox.Show("Los datos del paciente han sido modificados pero no guardados.\n" +
                     "¿Está seguro de limpiar los campos?", "Datos no guardados", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
@@ -247,7 +247,7 @@ namespace MiConsulta
 
             if (isUpdated)
             {
-                if (patientDetails1.Patient.Edited)
+                if (patientDetails1.Patient.IsEdited)
                 {
                     DialogResult ask = MessageBox.Show("Los datos del paciente han sido modificados pero no guardados.\n" +
                         "¿Desea continuar con la actualización?", "Datos no guardados", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);

@@ -1,4 +1,25 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ListManagerControl.cs" company="none">
+// Copyright (C) 2013
+//
+//   This program is free software: you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by 
+//   the Free Software Foundation, either version 3 of the License, or
+//   (at your option) any later version.
+//
+//   This program is distributed in the hope that it will be useful, 
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details. 
+//
+//   You should have received a copy of the GNU General Public License
+//   along with this program.  If not, see "http://www.gnu.org/licenses/". 
+// </copyright>
+// <author>pleoNeX</author>
+// <email>benito356@gmail.com</email>
+// <date>30/03/2013</date>
+//-----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,43 +31,44 @@ using System.IO;
 
 namespace MiConsulta
 {
-    public partial class ImageDialog : Form
+    public partial class ImageDialog : DataEditor
     {
-        sImage img;
-        string app_dir = Application.StartupPath + Path.DirectorySeparatorChar;
-        string folder_name = "Images" + Path.DirectorySeparatorChar;
+        private const string DirName = "Images";
 
+        private string tempPath = string.Empty;
+        private string saveFile = string.Empty;
+        
         public ImageDialog()
         {
             InitializeComponent();
             this.Text = "Añadir imagen";
-
-            img = new sImage();
-            dateTimeBox.Value = DateTime.Now;
+            this.btnOk.Click += this.btnOk_Click;
+            this.dateTimeBox.Value = DateTime.Now;
         }
-        public ImageDialog(sImage img)
+        
+        public ImageDialog(Photo photo)
+            : base(photo)
         {
             InitializeComponent();
             this.Text = "Editar imagen";
-
-            this.img = img;
-            dateTimeBox.Value = img.date;
-            txtTitle.Text = img.title;
-            txtName.Text = System.IO.Path.GetFileName(img.relative_path);
+            this.btnOk.Click += this.btnOk_Click;
         }
 
-        private void btnOk_Click(object sender, EventArgs e)
+        protected override void LoadData(PatientData data)
         {
-            this.Close();
+            Photo photo = (Photo)data;
+            this.dateTimeBox.Value = photo.LastModification;
+            this.txtTitle.Text = photo.Title;
+            this.txtName.Text = Path.GetFileName(photo.Path);
         }
-
-        public sImage Image
+        
+        public Photo Photo
         {
-            get
-            {
-                img.title = txtTitle.Text;
-                img.date = dateTimeBox.Value;
-                return img;
+            get {
+                if (string.IsNullOrEmpty(this.saveFile))
+                    throw new Exception("Window hasn't been closed yet");
+                
+                return new Photo(this.txtTitle.Text, this.saveFile);
             }
         }
 
@@ -60,11 +82,10 @@ namespace MiConsulta
             if (o.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 return;
 
-            txtName.Text = o.SafeFileName;
-            img.relative_path = o.FileName;
+            this.txtName.Text = o.SafeFileName;
+            this.tempPath = o.FileName;
 
             o.Dispose();
-            o = null;
         }
 
         private void ImageDialog_FormClosing(object sender, FormClosingEventArgs e)
@@ -72,17 +93,17 @@ namespace MiConsulta
             if (DialogResult != System.Windows.Forms.DialogResult.OK)
                 return;
 
-            string outp = app_dir + folder_name;
-            if (!Directory.Exists(outp))
-                Directory.CreateDirectory(outp);
+            // Save file to program directory
+            string outDir = Path.Combine(Application.StartupPath, DirName);
+            if (!Directory.Exists(outDir))
+                Directory.CreateDirectory(outDir);
 
-            if (File.Exists(outp + txtName.Text))
-                outp += Path.GetRandomFileName() + '_' + txtName.Text;
-            else
-                outp += txtName.Text;
+            string outFile = Path.Combine(outDir, this.txtName.Text);
+            if (File.Exists(outFile))
+                outFile = Path.Combine(outDir, Path.GetRandomFileName() + '_' + txtName.Text);
 
-            File.Copy(img.relative_path, outp);
-            img.relative_path = outp.Replace(app_dir, "");
+            File.Copy(this.tempPath, outFile);
+            this.saveFile = outFile.Replace(Application.StartupPath, "");
         }
     }
 }

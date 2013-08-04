@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImageDialog));
             this.btnOpen = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
@@ -40,7 +41,7 @@
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(299, 10);
+            this.btnOpen.Location = new System.Drawing.Point(313, 10);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(80, 23);
             this.btnOpen.TabIndex = 1;
@@ -61,20 +62,21 @@
             // 
             this.txtName.Location = new System.Drawing.Point(64, 12);
             this.txtName.Name = "txtName";
+            this.txtName.ReadOnly = true;
             this.txtName.Size = new System.Drawing.Size(229, 20);
             this.txtName.TabIndex = 0;
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(64, 38);
+            this.txtTitle.Location = new System.Drawing.Point(64, 42);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(315, 20);
+            this.txtTitle.Size = new System.Drawing.Size(329, 20);
             this.txtTitle.TabIndex = 2;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 41);
+            this.label2.Location = new System.Drawing.Point(12, 45);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 6;
@@ -84,7 +86,7 @@
             // 
             this.dateTimeBox.CustomFormat = " dddd\',\' MMMM\',\' dd\'/\'MM\'/\'yyyy";
             this.dateTimeBox.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimeBox.Location = new System.Drawing.Point(64, 64);
+            this.dateTimeBox.Location = new System.Drawing.Point(64, 71);
             this.dateTimeBox.Name = "dateTimeBox";
             this.dateTimeBox.Size = new System.Drawing.Size(229, 20);
             this.dateTimeBox.TabIndex = 3;
@@ -92,7 +94,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 68);
+            this.label3.Location = new System.Drawing.Point(12, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 7;
@@ -101,20 +103,21 @@
             // btnOk
             // 
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(299, 63);
+            this.btnOk.Image = global::MiConsulta.Properties.Resources.accept;
+            this.btnOk.Location = new System.Drawing.Point(313, 70);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(80, 23);
             this.btnOk.TabIndex = 4;
             this.btnOk.Text = "Aceptar";
+            this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // ImageDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ClientSize = new System.Drawing.Size(382, 89);
+            this.ClientSize = new System.Drawing.Size(405, 103);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dateTimeBox);
@@ -124,17 +127,16 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnOpen);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ImageDialog";
-            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Añadir imagen";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ImageDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion

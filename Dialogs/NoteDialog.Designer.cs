@@ -67,7 +67,7 @@ namespace MiConsulta
             this.txtNoteTitle.Name = "txtNoteTitle";
             this.txtNoteTitle.Size = new System.Drawing.Size(398, 20);
             this.txtNoteTitle.TabIndex = 1;
-            this.txtNoteTitle.TextChanged += new System.EventHandler(this.TxtNoteMsgTextChanged);
+            this.txtNoteTitle.TextChanged += new System.EventHandler(this.TxtTextChanged);
             // 
             // txtNoteMsg
             // 
@@ -78,7 +78,7 @@ namespace MiConsulta
             this.txtNoteMsg.Size = new System.Drawing.Size(398, 236);
             this.txtNoteMsg.TabIndex = 0;
             this.txtNoteMsg.Tag = "5";
-            this.txtNoteMsg.TextChanged += new System.EventHandler(this.TxtNoteMsgTextChanged);
+            this.txtNoteMsg.TextChanged += new System.EventHandler(this.TxtTextChanged);
             // 
             // label1
             // 

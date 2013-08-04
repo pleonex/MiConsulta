@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------
 // <copyright file="NoteDialog.cs" company="none">
-// Copyright (C) 2012
+// Copyright (C) 2013
 //
 //   This program is free software: you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as published by 
@@ -31,7 +31,7 @@ using System.Windows.Forms;
 
 namespace MiConsulta
 {
-    public partial class NoteDialog : Form
+    public partial class NoteDialog : DataEditor
     {
         private bool loading  = false;
         private bool modified = false;
@@ -42,38 +42,41 @@ namespace MiConsulta
             this.Text = "Añadir nota";
         }
 
-        public NoteDialog(sNote note)
+        public NoteDialog(Note note)
+            : base(note)
         {
             InitializeComponent();
             this.Text = "Editar nota";
-            this.LoadNote(note);
         }
 
-        private void LoadNote(sNote note)
+        protected override void LoadData(PatientData data)
         {
+            Note note = (Note)data;
             this.loading = true;
-            this.txtNoteMsg.Text = note.msg;
-            this.txtNoteTitle.Text = note.title;
+            this.txtNoteMsg.Text = note.Message;
+            this.txtNoteTitle.Text = note.Title;
             this.loading = false;
         }
         
-        public sNote Note
+        public Note Note
         {
-            get { return new sNote(this.txtNoteTitle.Text, this.txtNoteMsg.Text); }
+            get { return new Note(this.txtNoteTitle.Text, this.txtNoteMsg.Text); }
         }
 
         private void NoteDialog_Resize(object sender, EventArgs e)
         {
-            this.txtNoteTitle.Width   = this.Width  - 22;
-            this.txtNoteMsg.Width     = this.Width  - 22;
-            this.txtNoteMsg.Height    = this.Height - 139;
-            this.btnCancel.Location.Y = this.Height - 69;
-            this.btnOk.Location.Y     = this.Height - 69;
-            this.btnOk.Location.X     = this.Width  - 90;
+            this.txtNoteTitle.Width = this.Width  - 22;
+            this.txtNoteMsg.Width   = this.Width  - 22;
+            this.txtNoteMsg.Height  = this.Height - 139;
+            this.btnCancel.Location = new Point(this.btnCancel.Location.X, this.Height - 69);
+            this.btnOk.Location     = new Point(this.Width - 90, this.Height - 69);
         } 
         
         private void TxtTextChanged(object sender, EventArgs e)
         {
+            if (this.loading)
+                return;
+            
             this.modified = true;
             this.Text += " (modificada)";
         }

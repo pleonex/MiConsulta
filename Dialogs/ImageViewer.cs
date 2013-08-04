@@ -30,39 +30,38 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace MiConsulta
 {
-    public partial class ImageViewer : Form
+    public partial class ImageViewer : DataForm
     {
         public ImageViewer()
         {
             InitializeComponent();
         }
-        public ImageViewer(sImage image)
+        public ImageViewer(Photo photo)
+            : base(photo)
         {
             InitializeComponent();
-
-            picImg.Image = Image.FromFile(Application.StartupPath + System.IO.Path.DirectorySeparatorChar + image.relative_path);
-            lblTitle.Text = image.title + " - " + image.date.ToString();
+            this.btnClose.Click += delegate { this.Close(); };
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        protected override void LoadData(PatientData data)
         {
-            this.Close();
+            Photo photo = (Photo)data;
+            this.picImg.Image = Image.FromFile( Path.Combine(Application.StartupPath, photo.Path) );
+            this.lblTitle.Text = photo.ToString();
         }
-
+        
         private void linkHere_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (picImg.SizeMode == PictureBoxSizeMode.AutoSize)
-            {
-                picImg.SizeMode = PictureBoxSizeMode.StretchImage;
-                linkHere.Text = "Pulse aquí para ver la imagen a tamaño real.";
-            }
-            else
-            {
-                picImg.SizeMode = PictureBoxSizeMode.AutoSize;
-                linkHere.Text = "Pulse aquí para ajustar la imagen a la ventana.";
+            if (this.picImg.SizeMode == PictureBoxSizeMode.AutoSize) {
+                this.picImg.SizeMode = PictureBoxSizeMode.StretchImage;
+                this.linkHere.Text = "Pulse aquí para ver la imagen a tamaño real.";
+            } else {
+                this.picImg.SizeMode = PictureBoxSizeMode.AutoSize;
+                this.linkHere.Text = "Pulse aquí para ajustar la imagen a la ventana.";
             }
         }
     }

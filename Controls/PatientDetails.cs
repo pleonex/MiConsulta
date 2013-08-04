@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------------
 // <copyright file="PatientDetails.cs" company="none">
-
-// Copyright (C) 2012
+// Copyright (C) 2013
 //
 //   This program is free software: you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as published by 
@@ -17,7 +16,6 @@
 //   along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 //
 // </copyright>
-
 // <author>pleoNeX</author>
 // <email>benito356@gmail.com</email>
 // <date>07/09/2012 2:05:24</date>
@@ -88,14 +86,14 @@ namespace MiConsulta
 
             for (int i = 0; i < p.NotesLength; i++)
             {
-                sNote note = p.Get_Note(i);
-                listNotes.Items.Add(note.date.ToShortDateString() + ' ' + note.title);
+                Note note = p.Get_Note(i);
+                listNotes.Items.Add(note.LastModification.ToShortDateString() + ' ' + note.Title);
             }
 
             for (int i = 0; i < p.ImagesLength; i++)
             {
-                sImage img = p.Get_Image(i);
-                listImgs.Items.Add(img.date.ToShortDateString() + ' ' + img.title);
+                Photo img = p.Get_Image(i);
+                //TODO listImgs.Items.Add(img.LastModification.ToShortDateString() + ' ' + img.Title);
             }
 
             if (System.IO.File.Exists(p.Icon))
@@ -130,12 +128,14 @@ namespace MiConsulta
             btnUpNote.Enabled = false;
             btnDownNote.Enabled = false;
 
+            // TODO 
+            /*
             listImgs.Items.Clear();
             btnViewImg.Enabled = false;
             btnEditImg.Enabled = false;
             btnRemoveImg.Enabled = false;
             btnDownImg.Enabled = false;
-            btnUpImg.Enabled = false;
+            btnUpImg.Enabled = false;*/
 
             picPhoto.Image = Properties.Resources.Unknown_profile;
 
@@ -265,7 +265,7 @@ namespace MiConsulta
             int s = listNotes.SelectedIndex;
             listNotes.Items.Clear();
             for (int i = 0; i < p.NotesLength; i++)
-                listNotes.Items.Add(p.Get_Note(i).date.ToShortDateString() + ' ' + p.Get_Note(i).title);
+                listNotes.Items.Add(p.Get_Note(i).LastModification.ToShortDateString() + ' ' + p.Get_Note(i).Title);
             listNotes.SelectedIndex = s;
 
             int l = p.NotesLength;
@@ -280,6 +280,8 @@ namespace MiConsulta
         }
         private void btnAddNote_Click(object sender, EventArgs e)
         {
+            // TODO
+            /*
             NoteDialog nd = new NoteDialog();
             noUpdate = true;
             sNote note = new sNote();
@@ -293,9 +295,12 @@ namespace MiConsulta
             Update_Notes();
             noUpdate = false;
             listNotes.SelectedIndex = p.NotesLength - 1;
+            */
         }
         private void btnEditNote_Click(object sender, EventArgs e)
         {
+            // TODO
+            /*
             int i = listNotes.SelectedIndex;
 
             sNote note = p.Get_Note(i);
@@ -304,6 +309,7 @@ namespace MiConsulta
             p.Set_Note(i, note);
 
             listNotes.Items[i] = note.date.ToShortDateString() + ' ' + note.title;
+            */
         }
         private void btnRemoveNote_Click(object sender, EventArgs e)
         {
@@ -344,6 +350,8 @@ namespace MiConsulta
         }
         private void listNotes_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // TODO:
+            /*
             if (noUpdate)
                 return;
             noUpdate = true;
@@ -355,10 +363,13 @@ namespace MiConsulta
 
             btnEditNote.Enabled = true;
             btnRemoveNote.Enabled = true;
+            */
         }
 
         private void Update_Image()
         {
+            // TODO:
+            /*
             int s = listImgs.SelectedIndex;
             int l = p.ImagesLength;
 
@@ -374,16 +385,22 @@ namespace MiConsulta
                 btnDownImg.Enabled = true;
             if (l > 1 && (s > 0 && s < l))
                 btnUpImg.Enabled = true;
+                */
         }
         private void btnViewImg_Click(object sender, EventArgs e)
         {
+            // TODO
+            /*
             ImageViewer iv = new ImageViewer(p.Get_Image(listImgs.SelectedIndex));
             iv.ShowDialog();
             iv.Dispose();
             iv = null;
+            */
         }
         private void btnAddImg_Click(object sender, EventArgs e)
         {
+            // TODO:
+            /*
             ImageDialog id = new ImageDialog();
             if (id.ShowDialog() != DialogResult.OK)
                 return;
@@ -396,9 +413,12 @@ namespace MiConsulta
             Update_Image();
             noUpdate = false;
             listImgs.SelectedIndex = p.ImagesLength - 1;
+            */
         }
         private void btnEditImg_Click(object sender, EventArgs e)
         {
+            // TODO
+            /*
             ImageDialog id = new ImageDialog(p.Get_Image(listImgs.SelectedIndex));
             if (id.ShowDialog() != DialogResult.OK)
                 return;
@@ -408,9 +428,12 @@ namespace MiConsulta
 
             id.Dispose();
             id = null;
+            */
         }
         private void btnRemoveImg_Click(object sender, EventArgs e)
         {
+            // TODO:
+            /*
             noUpdate = true;
             int i = listImgs.SelectedIndex;
             p.Remove_Image(i);
@@ -427,25 +450,34 @@ namespace MiConsulta
                 btnEditImg.Enabled = false;
                 btnViewImg.Enabled = false;
             }
+            */
         }
         private void btnUpImg_Click(object sender, EventArgs e)
         {
+            // TODO:
+            /*
             noUpdate = true;
             p.Image_Up(listImgs.SelectedIndex);
             listImgs.SelectedIndex -= 1;
             Update_Image();
             noUpdate = false;
+            */
         }
         private void btnDownImg_Click(object sender, EventArgs e)
         {
+            // TODO:
+            /*
             noUpdate = true;
             p.Image_Down(listImgs.SelectedIndex);
             listImgs.SelectedIndex += 1;
             Update_Image();
             noUpdate = false;
+            */
         }
         private void listImgs_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // TODO
+            /*
             if (noUpdate)
                 return;
             noUpdate = true;
@@ -454,6 +486,12 @@ namespace MiConsulta
 
             btnEditImg.Enabled = true;
             btnRemoveImg.Enabled = true;
+            */
+        }
+        
+        void Button1Click(object sender, EventArgs e)
+        {
+            new ImageDialog().ShowDialog();
         }
     }
 }

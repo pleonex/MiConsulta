@@ -54,10 +54,18 @@ namespace MiConsulta
         {
             this.components = new System.ComponentModel.Container();
             this.groupDetails = new System.Windows.Forms.GroupBox();
+            this.btnRemoveNote = new System.Windows.Forms.Button();
+            this.btnEditNote = new System.Windows.Forms.Button();
+            this.btnAddNote = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.listNotes = new System.Windows.Forms.ListBox();
             this.dateTimeAppointment = new System.Windows.Forms.DateTimePicker();
             this.dateTimeNextAppoint = new System.Windows.Forms.DateTimePicker();
+            this.btnRemoveVisit = new System.Windows.Forms.Button();
+            this.btnDownNote = new System.Windows.Forms.Button();
+            this.btnUpNote = new System.Windows.Forms.Button();
+            this.btnEditVisit = new System.Windows.Forms.Button();
+            this.btnAddVisit = new System.Windows.Forms.Button();
             this.listAppointment = new System.Windows.Forms.ListBox();
             this.txtMobile = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -73,16 +81,9 @@ namespace MiConsulta
             this.label7 = new System.Windows.Forms.Label();
             this.txtHistory = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.toolTipHelp = new System.Windows.Forms.ToolTip(this.components);
-            this.btnRemoveNote = new System.Windows.Forms.Button();
-            this.btnEditNote = new System.Windows.Forms.Button();
-            this.btnAddNote = new System.Windows.Forms.Button();
-            this.btnRemoveVisit = new System.Windows.Forms.Button();
-            this.btnDownNote = new System.Windows.Forms.Button();
-            this.btnUpNote = new System.Windows.Forms.Button();
-            this.btnEditVisit = new System.Windows.Forms.Button();
-            this.btnAddVisit = new System.Windows.Forms.Button();
             this.picPhoto = new System.Windows.Forms.PictureBox();
+            this.toolTipHelp = new System.Windows.Forms.ToolTip(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             this.groupDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPhoto)).BeginInit();
             this.SuspendLayout();
@@ -90,6 +91,7 @@ namespace MiConsulta
             // groupDetails
             // 
             this.groupDetails.BackColor = System.Drawing.Color.Transparent;
+            this.groupDetails.Controls.Add(this.button1);
             this.groupDetails.Controls.Add(this.btnRemoveNote);
             this.groupDetails.Controls.Add(this.btnEditNote);
             this.groupDetails.Controls.Add(this.btnAddNote);
@@ -125,14 +127,47 @@ namespace MiConsulta
             this.groupDetails.TabStop = false;
             this.groupDetails.Text = "Detalles del paciente";
             // 
+            // btnRemoveNote
+            // 
+            this.btnRemoveNote.Image = global::MiConsulta.Properties.Resources.note_delete;
+            this.btnRemoveNote.Location = new System.Drawing.Point(396, 276);
+            this.btnRemoveNote.Name = "btnRemoveNote";
+            this.btnRemoveNote.Size = new System.Drawing.Size(30, 23);
+            this.btnRemoveNote.TabIndex = 14;
+            this.toolTipHelp.SetToolTip(this.btnRemoveNote, "Eliminar nota");
+            this.btnRemoveNote.UseVisualStyleBackColor = true;
+            this.btnRemoveNote.Click += new System.EventHandler(this.btnRemoveNote_Click);
+            // 
+            // btnEditNote
+            // 
+            this.btnEditNote.Image = global::MiConsulta.Properties.Resources.note_edit;
+            this.btnEditNote.Location = new System.Drawing.Point(397, 247);
+            this.btnEditNote.Name = "btnEditNote";
+            this.btnEditNote.Size = new System.Drawing.Size(30, 23);
+            this.btnEditNote.TabIndex = 13;
+            this.toolTipHelp.SetToolTip(this.btnEditNote, "Editar nota");
+            this.btnEditNote.UseVisualStyleBackColor = true;
+            this.btnEditNote.Click += new System.EventHandler(this.btnEditNote_Click);
+            // 
+            // btnAddNote
+            // 
+            this.btnAddNote.Image = global::MiConsulta.Properties.Resources.note_add;
+            this.btnAddNote.Location = new System.Drawing.Point(397, 218);
+            this.btnAddNote.Name = "btnAddNote";
+            this.btnAddNote.Size = new System.Drawing.Size(30, 23);
+            this.btnAddNote.TabIndex = 12;
+            this.toolTipHelp.SetToolTip(this.btnAddNote, "Añadir nota");
+            this.btnAddNote.UseVisualStyleBackColor = true;
+            this.btnAddNote.Click += new System.EventHandler(this.btnAddNote_Click);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(188, 201);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 13);
+            this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 35;
-            this.label2.Text = "Tratamientos / Notas:";
+            this.label2.Text = "Notas:";
             // 
             // listNotes
             // 
@@ -164,6 +199,61 @@ namespace MiConsulta
             this.dateTimeNextAppoint.TabIndex = 6;
             this.dateTimeNextAppoint.Value = new System.DateTime(2012, 9, 7, 13, 14, 0, 0);
             this.dateTimeNextAppoint.Leave += new System.EventHandler(this.dateTimeNextAppoit_ValueChanged);
+            // 
+            // btnRemoveVisit
+            // 
+            this.btnRemoveVisit.Image = global::MiConsulta.Properties.Resources.calendar_delete;
+            this.btnRemoveVisit.Location = new System.Drawing.Point(155, 301);
+            this.btnRemoveVisit.Name = "btnRemoveVisit";
+            this.btnRemoveVisit.Size = new System.Drawing.Size(30, 23);
+            this.btnRemoveVisit.TabIndex = 10;
+            this.toolTipHelp.SetToolTip(this.btnRemoveVisit, "Eliminar cita");
+            this.btnRemoveVisit.UseVisualStyleBackColor = true;
+            this.btnRemoveVisit.Click += new System.EventHandler(this.btnRemoveVisit_Click);
+            // 
+            // btnDownNote
+            // 
+            this.btnDownNote.Image = global::MiConsulta.Properties.Resources.arrow_down;
+            this.btnDownNote.Location = new System.Drawing.Point(397, 355);
+            this.btnDownNote.Name = "btnDownNote";
+            this.btnDownNote.Size = new System.Drawing.Size(30, 23);
+            this.btnDownNote.TabIndex = 16;
+            this.toolTipHelp.SetToolTip(this.btnDownNote, "Bajar nota");
+            this.btnDownNote.UseVisualStyleBackColor = true;
+            this.btnDownNote.Click += new System.EventHandler(this.btnDownNote_Click);
+            // 
+            // btnUpNote
+            // 
+            this.btnUpNote.Image = global::MiConsulta.Properties.Resources.arrow_up;
+            this.btnUpNote.Location = new System.Drawing.Point(397, 326);
+            this.btnUpNote.Name = "btnUpNote";
+            this.btnUpNote.Size = new System.Drawing.Size(30, 23);
+            this.btnUpNote.TabIndex = 15;
+            this.toolTipHelp.SetToolTip(this.btnUpNote, "Subir nota");
+            this.btnUpNote.UseVisualStyleBackColor = true;
+            this.btnUpNote.Click += new System.EventHandler(this.btnUpNote_Click);
+            // 
+            // btnEditVisit
+            // 
+            this.btnEditVisit.Image = global::MiConsulta.Properties.Resources.calendar_edit;
+            this.btnEditVisit.Location = new System.Drawing.Point(155, 272);
+            this.btnEditVisit.Name = "btnEditVisit";
+            this.btnEditVisit.Size = new System.Drawing.Size(30, 23);
+            this.btnEditVisit.TabIndex = 9;
+            this.toolTipHelp.SetToolTip(this.btnEditVisit, "Editar cita");
+            this.btnEditVisit.UseVisualStyleBackColor = true;
+            this.btnEditVisit.Click += new System.EventHandler(this.btnEditVisit_Click);
+            // 
+            // btnAddVisit
+            // 
+            this.btnAddVisit.Image = global::MiConsulta.Properties.Resources.calendar_add;
+            this.btnAddVisit.Location = new System.Drawing.Point(155, 243);
+            this.btnAddVisit.Name = "btnAddVisit";
+            this.btnAddVisit.Size = new System.Drawing.Size(30, 23);
+            this.btnAddVisit.TabIndex = 8;
+            this.toolTipHelp.SetToolTip(this.btnAddVisit, "Añadir cita");
+            this.btnAddVisit.UseVisualStyleBackColor = true;
+            this.btnAddVisit.Click += new System.EventHandler(this.btnAddVisit_Click);
             // 
             // listAppointment
             // 
@@ -296,98 +386,6 @@ namespace MiConsulta
             this.label6.TabIndex = 27;
             this.label6.Text = "Número de historia:";
             // 
-            // toolTipHelp
-            // 
-            this.toolTipHelp.ToolTipTitle = "Acción:";
-            // 
-            // btnRemoveNote
-            // 
-            this.btnRemoveNote.Image = global::MiConsulta.Properties.Resources.note_delete;
-            this.btnRemoveNote.Location = new System.Drawing.Point(396, 276);
-            this.btnRemoveNote.Name = "btnRemoveNote";
-            this.btnRemoveNote.Size = new System.Drawing.Size(30, 23);
-            this.btnRemoveNote.TabIndex = 14;
-            this.toolTipHelp.SetToolTip(this.btnRemoveNote, "Eliminar nota");
-            this.btnRemoveNote.UseVisualStyleBackColor = true;
-            this.btnRemoveNote.Click += new System.EventHandler(this.btnRemoveNote_Click);
-            // 
-            // btnEditNote
-            // 
-            this.btnEditNote.Image = global::MiConsulta.Properties.Resources.note_edit;
-            this.btnEditNote.Location = new System.Drawing.Point(397, 247);
-            this.btnEditNote.Name = "btnEditNote";
-            this.btnEditNote.Size = new System.Drawing.Size(30, 23);
-            this.btnEditNote.TabIndex = 13;
-            this.toolTipHelp.SetToolTip(this.btnEditNote, "Editar nota");
-            this.btnEditNote.UseVisualStyleBackColor = true;
-            this.btnEditNote.Click += new System.EventHandler(this.btnEditNote_Click);
-            // 
-            // btnAddNote
-            // 
-            this.btnAddNote.Image = global::MiConsulta.Properties.Resources.note_add;
-            this.btnAddNote.Location = new System.Drawing.Point(397, 218);
-            this.btnAddNote.Name = "btnAddNote";
-            this.btnAddNote.Size = new System.Drawing.Size(30, 23);
-            this.btnAddNote.TabIndex = 12;
-            this.toolTipHelp.SetToolTip(this.btnAddNote, "Añadir nota");
-            this.btnAddNote.UseVisualStyleBackColor = true;
-            this.btnAddNote.Click += new System.EventHandler(this.btnAddNote_Click);
-            // 
-            // btnRemoveVisit
-            // 
-            this.btnRemoveVisit.Image = global::MiConsulta.Properties.Resources.calendar_delete;
-            this.btnRemoveVisit.Location = new System.Drawing.Point(155, 301);
-            this.btnRemoveVisit.Name = "btnRemoveVisit";
-            this.btnRemoveVisit.Size = new System.Drawing.Size(30, 23);
-            this.btnRemoveVisit.TabIndex = 10;
-            this.toolTipHelp.SetToolTip(this.btnRemoveVisit, "Eliminar cita");
-            this.btnRemoveVisit.UseVisualStyleBackColor = true;
-            this.btnRemoveVisit.Click += new System.EventHandler(this.btnRemoveVisit_Click);
-            // 
-            // btnDownNote
-            // 
-            this.btnDownNote.Image = global::MiConsulta.Properties.Resources.arrow_down;
-            this.btnDownNote.Location = new System.Drawing.Point(397, 355);
-            this.btnDownNote.Name = "btnDownNote";
-            this.btnDownNote.Size = new System.Drawing.Size(30, 23);
-            this.btnDownNote.TabIndex = 16;
-            this.toolTipHelp.SetToolTip(this.btnDownNote, "Bajar nota");
-            this.btnDownNote.UseVisualStyleBackColor = true;
-            this.btnDownNote.Click += new System.EventHandler(this.btnDownNote_Click);
-            // 
-            // btnUpNote
-            // 
-            this.btnUpNote.Image = global::MiConsulta.Properties.Resources.arrow_up;
-            this.btnUpNote.Location = new System.Drawing.Point(397, 326);
-            this.btnUpNote.Name = "btnUpNote";
-            this.btnUpNote.Size = new System.Drawing.Size(30, 23);
-            this.btnUpNote.TabIndex = 15;
-            this.toolTipHelp.SetToolTip(this.btnUpNote, "Subir nota");
-            this.btnUpNote.UseVisualStyleBackColor = true;
-            this.btnUpNote.Click += new System.EventHandler(this.btnUpNote_Click);
-            // 
-            // btnEditVisit
-            // 
-            this.btnEditVisit.Image = global::MiConsulta.Properties.Resources.calendar_edit;
-            this.btnEditVisit.Location = new System.Drawing.Point(155, 272);
-            this.btnEditVisit.Name = "btnEditVisit";
-            this.btnEditVisit.Size = new System.Drawing.Size(30, 23);
-            this.btnEditVisit.TabIndex = 9;
-            this.toolTipHelp.SetToolTip(this.btnEditVisit, "Editar cita");
-            this.btnEditVisit.UseVisualStyleBackColor = true;
-            this.btnEditVisit.Click += new System.EventHandler(this.btnEditVisit_Click);
-            // 
-            // btnAddVisit
-            // 
-            this.btnAddVisit.Image = global::MiConsulta.Properties.Resources.calendar_add;
-            this.btnAddVisit.Location = new System.Drawing.Point(155, 243);
-            this.btnAddVisit.Name = "btnAddVisit";
-            this.btnAddVisit.Size = new System.Drawing.Size(30, 23);
-            this.btnAddVisit.TabIndex = 8;
-            this.toolTipHelp.SetToolTip(this.btnAddVisit, "Añadir cita");
-            this.btnAddVisit.UseVisualStyleBackColor = true;
-            this.btnAddVisit.Click += new System.EventHandler(this.btnAddVisit_Click);
-            // 
             // picPhoto
             // 
             this.picPhoto.BackColor = System.Drawing.Color.Gray;
@@ -402,6 +400,20 @@ namespace MiConsulta
             this.toolTipHelp.SetToolTip(this.picPhoto, "Haga doble click para importar la fotografía");
             this.picPhoto.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.picPhoto_MouseDoubleClick);
             // 
+            // toolTipHelp
+            // 
+            this.toolTipHelp.ToolTipTitle = "Acción:";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(521, 89);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 36;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1Click);
+            // 
             // PatientDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -414,8 +426,8 @@ namespace MiConsulta
             this.groupDetails.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPhoto)).EndInit();
             this.ResumeLayout(false);
-
         }
+        private System.Windows.Forms.Button button1;
 
         #endregion
 

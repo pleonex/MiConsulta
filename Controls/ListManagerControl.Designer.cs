@@ -92,6 +92,7 @@ namespace MiConsulta
             this.btnView.Size = new System.Drawing.Size(30, 23);
             this.btnView.TabIndex = 39;
             this.btnView.UseVisualStyleBackColor = true;
+            this.btnView.Click += new System.EventHandler(this.BtnViewClick);
             // 
             // btnRemove
             // 
@@ -155,7 +156,6 @@ namespace MiConsulta
             this.Size = new System.Drawing.Size(242, 178);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
         private System.Windows.Forms.ImageList btnImgList;
         private System.Windows.Forms.ListBox listObjs;

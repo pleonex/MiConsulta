@@ -72,6 +72,8 @@
       <DependentUpon>AlertForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Database.cs" />
+    <Compile Include="Dialogs\DataForm.cs" />
+    <Compile Include="Dialogs\DataEditor.cs" />
     <Compile Include="Dialogs\NoteDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +104,8 @@
     <Compile Include="Controls\ListManagerControl.Designer.cs">
       <DependentUpon>ListManagerControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Photo.cs" />
+    <Compile Include="Note.cs" />
     <Compile Include="Patient.cs" />
     <Compile Include="Controls\PatientDetails.cs">
       <SubType>UserControl</SubType>
@@ -109,7 +113,7 @@
     <Compile Include="Controls\PatientDetails.Designer.cs">
       <DependentUpon>PatientDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="PatientExtraData.cs" />
+    <Compile Include="PatientData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dialogs\UpdateDialog.cs">

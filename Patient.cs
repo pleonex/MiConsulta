@@ -39,9 +39,9 @@ namespace MiConsulta
         string email;
         string icon;
         List<sPhone> phones;
-        List<sNote> notes;
+        List<Note> notes;
         List<DateTime> appointments;
-        List<sImage> images;
+        List<Photo> images;
 
         string app_dir = System.Windows.Forms.Application.StartupPath + Path.DirectorySeparatorChar;
         XElement old_element;
@@ -65,25 +65,25 @@ namespace MiConsulta
             foreach (XElement e in element.Element("Phones").Elements("Phone"))
                 phones.Add(sPhone.Parse(e));
 
-            notes = new List<sNote>();
+            notes = new List<Note>();
             foreach (XElement e in element.Element("Notes").Elements("Note"))
-                notes.Add(sNote.Parse(e));
+                notes.Add(new Note(e));
 
             appointments = new List<DateTime>();
             foreach (XElement e in element.Element("Appointments").Elements("Appointment"))
                 appointments.Add(DateTime.Parse(e.Value));
 
-            images = new List<sImage>();
+            images = new List<Photo>();
             foreach (XElement e in element.Element("Images").Elements("Image"))
-                images.Add(sImage.Parse(e));
+                images.Add(new Photo(e));
         }
         public Patient()
         {
             name = history = address = email = "";
             phones = new List<sPhone>();
-            notes = new List<sNote>();
+            notes = new List<Note>();
             appointments = new List<DateTime>();
-            images = new List<sImage>();
+            images = new List<Photo>();
             old_element = ToXElement();
         }
 
@@ -295,17 +295,17 @@ namespace MiConsulta
         {
             get { return notes.Count; }
         }
-        public sNote Get_Note(int i)
+        public Note Get_Note(int i)
         {
             if (i < 0 || i >= notes.Count)
             {
                 Error("Invalid id " + i.ToString() + " in get note");
-                return new sNote();
+                return null;
             }
 
             return notes[i];
         }
-        public void Set_Note(int i, sNote note)
+        public void Set_Note(int i, Note note)
         {
             if (i < 0 || i >= notes.Count)
             {
@@ -315,7 +315,7 @@ namespace MiConsulta
 
             notes[i] = note;
         }
-        public void Add_Note(sNote note)
+        public void Add_Note(Note note)
         {
             notes.Add(note);
         }
@@ -327,7 +327,7 @@ namespace MiConsulta
                 return;
             }
 
-            sNote note = notes[i];
+            Note note = notes[i];
             notes.RemoveAt(i);
             notes.Insert(i - 1, note);
         }
@@ -339,7 +339,7 @@ namespace MiConsulta
                 return;
             }
 
-            sNote note = notes[i];
+            Note note = notes[i];
             notes.RemoveAt(i);
             notes.Insert(i + 1, note);
         }
@@ -359,17 +359,17 @@ namespace MiConsulta
         {
             get { return images.Count; }
         }
-        public sImage Get_Image(int i)
+        public Photo Get_Image(int i)
         {
             if (i < 0 || i >= images.Count)
             {
                 Error("Invalid id " + i.ToString() + " in get image");
-                return new sImage();
+                return null;
             }
 
             return images[i];
         }
-        public void Set_Image(int i, sImage image)
+        public void Set_Image(int i, Photo image)
         {
             if (i < 0 || i >= images.Count)
             {
@@ -379,7 +379,7 @@ namespace MiConsulta
 
             images[i] = image;
         }
-        public void Add_Image(sImage image)
+        public void Add_Image(Photo image)
         {
             images.Add(image);
         }
@@ -391,7 +391,7 @@ namespace MiConsulta
                 return;
             }
 
-            sImage image = images[i];
+            Photo image = images[i];
             images.RemoveAt(i);
             images.Insert(i - 1, image);
         }
@@ -403,7 +403,7 @@ namespace MiConsulta
                 return;
             }
 
-            sImage image = images[i];
+            Photo image = images[i];
             images.RemoveAt(i);
             images.Insert(i + 1, image);
         }
@@ -509,7 +509,7 @@ namespace MiConsulta
             Error("Removing appointment at " + i.ToString());
         }
 
-        public bool Edited
+        public bool IsEdited
         {
             get
             {
@@ -522,7 +522,7 @@ namespace MiConsulta
                 else old_element = ToXElement();
             }
         }
-        public bool Null
+        public bool IsNull
         {
             get
             {
@@ -575,60 +575,7 @@ namespace MiConsulta
             return e;
         }
     }
-    public struct sNote
-    {
-        public string title;
-        public string msg;
-        public DateTime date;
-
-        public sNote(string title, string msg)
-        {
-            this.title = title;
-            this.msg = msg;
-            this.date = DateTime.Now;
-        }
-        
-        public static sNote Parse(XElement e)
-        {
-            sNote note = new sNote();
-            note.title = Patient.Get_XValue(e, "Title");
-            note.msg = Patient.Get_XValue(e, "Message");
-            note.date = DateTime.Parse(Patient.Get_XValue(e, "Date"));
-            return note;
-        }
-        public XElement ToXElement()
-        {
-            XElement e = new XElement("Note");
-            e.Add(new XElement("Title", this.title));
-            e.Add(new XElement("Message", this.msg));
-            e.Add(new XElement("Date", this.date.ToString()));
-            return e;
-        }
-    }
-    public struct sImage
-    {
-        public string title;
-        public string relative_path;
-        public DateTime date;
-
-        public static sImage Parse(XElement e)
-        {
-            sImage img = new sImage();
-            img.title = Patient.Get_XValue(e, "Title");
-            img.relative_path = Patient.Get_XValue(e, "Path");
-            img.date = DateTime.Parse(Patient.Get_XValue(e, "Date"));
-            return img;
-        }
-        public XElement ToXElement()
-        {
-            XElement e = new XElement("Image");
-            e.Add(new XElement("Title", this.title));
-            e.Add(new XElement("Path", this.relative_path));
-            e.Add(new XElement("Date", this.date.ToString()));
-            return e;
-        }
-    }
-
+    
     public enum Phone_Type
     {
         Landline,
