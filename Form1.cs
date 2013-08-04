@@ -220,7 +220,8 @@ namespace MiConsulta
 
         private void picInternet_Click(object sender, EventArgs e)
         {
-            backIntrenet.RunWorkerAsync();
+            if (!backIntrenet.IsBusy)
+                backIntrenet.RunWorkerAsync();
         }
         private void backIntrenet_DoWork(object sender, DoWorkEventArgs e)
         {

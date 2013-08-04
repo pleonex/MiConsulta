@@ -30,14 +30,26 @@ namespace MiConsulta
         
         protected DataForm()
         {
-            this.TopMost = true;
+            //this.TopMost = true;
             this.StartPosition = FormStartPosition.CenterParent;
         }
         protected DataForm(PatientData data)
             : this()
         {
             this.data = data;
+        }
+        
+        protected bool Loading
+        {
+            get;
+            private set;
+        }
+        
+        protected void LoadData()
+        {
+            this.Loading = true;
             this.LoadData(data);
+            this.Loading = false;
         }
         
         protected virtual void LoadData(PatientData data) {}    // TODO: Must be abstract method.

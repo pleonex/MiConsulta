@@ -491,7 +491,6 @@ namespace MiConsulta
         
         void Button1Click(object sender, EventArgs e)
         {
-            new ImageDialog().ShowDialog();
         }
     }
 }

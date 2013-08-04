@@ -35,7 +35,7 @@ namespace MiConsulta
 {
     public static class Updater
     {
-        public static string upd_file = "https://dl.dropbox.com/u/3981393/Anais/MiConsulta_Update.xml";
+        public static string upd_file = "https://dl.dropbox.com/u/3981393/jkl/MiConsulta_Update.xml";
         public static string ping_web = "google.es";
 
         public static bool Check_Internet()

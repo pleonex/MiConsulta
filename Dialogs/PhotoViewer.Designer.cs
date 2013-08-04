@@ -24,7 +24,7 @@
 // -----------------------------------------------------------------------
 namespace MiConsulta
 {
-    partial class ImageViewer
+    partial class PhotoViewer
     {
         /// <summary>
         /// Required designer variable.

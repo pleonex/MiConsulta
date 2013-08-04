@@ -67,7 +67,6 @@ namespace MiConsulta
             this.txtNoteTitle.Name = "txtNoteTitle";
             this.txtNoteTitle.Size = new System.Drawing.Size(398, 20);
             this.txtNoteTitle.TabIndex = 1;
-            this.txtNoteTitle.TextChanged += new System.EventHandler(this.TxtTextChanged);
             // 
             // txtNoteMsg
             // 
@@ -78,7 +77,6 @@ namespace MiConsulta
             this.txtNoteMsg.Size = new System.Drawing.Size(398, 236);
             this.txtNoteMsg.TabIndex = 0;
             this.txtNoteMsg.Tag = "5";
-            this.txtNoteMsg.TextChanged += new System.EventHandler(this.TxtTextChanged);
             // 
             // label1
             // 
@@ -108,7 +106,6 @@ namespace MiConsulta
             this.btnOk.Text = "Guardar";
             this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.BtnOkClick);
             // 
             // btnCancel
             // 
@@ -120,7 +117,6 @@ namespace MiConsulta
             this.btnCancel.Text = "Cancelar";
             this.btnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.BtnCancelClick);
             // 
             // NoteDialog
             // 
@@ -140,7 +136,6 @@ namespace MiConsulta
             this.MinimumSize = new System.Drawing.Size(190, 205);
             this.Name = "NoteDialog";
             this.ShowInTaskbar = false;
-            this.Text = "Editar nota";
             this.TopMost = true;
             this.Resize += new System.EventHandler(this.NoteDialog_Resize);
             this.ResumeLayout(false);

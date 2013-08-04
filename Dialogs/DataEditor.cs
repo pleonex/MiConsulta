@@ -28,23 +28,87 @@ namespace MiConsulta
     /// Description of IDataEditor.
     /// </summary>
     public class DataEditor : DataForm  // TODO: MUST be abstract class, but makes problems to the UI Designer
-    {
+    {        
+        private string dataType;
+        
         protected DataEditor()
         { }
         
-        protected DataEditor(PatientData data)
-            : base(data)
-        { }
-        
-        protected void btnOk_Click(object sender, EventArgs e)
+        protected DataEditor(string dataType)
         {
-            if (!this.CheckData())
+            this.dataType = dataType.ToLower();
+            this.Text = "Añadir " + this.dataType;
+        }
+        
+        protected DataEditor(string dataType, PatientData data)
+            : base(data)
+        {
+            this.dataType = dataType.ToLower();
+            this.Text = "Editar " + this.dataType;
+        }
+          
+        public bool Modified {
+            get;
+            private set;
+        }
+        
+        protected void DataChanged(object sender, EventArgs e)
+        {
+            if (this.Loading)
                 return;
             
-            this.DialogResult = DialogResult.OK;
+            if (!this.Modified)
+                this.Text += " *(modificada)";
+            this.Modified = true;
+        }
+        
+        protected virtual void OnFormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.Modified && !this.AskExit())
+                e.Cancel = true;
+        }
+        
+        protected virtual void btnExit_Click(object sender, EventArgs e)
+        {
+            if (this.Modified && !this.AskExit())
+                return;
+            
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
         
-        protected virtual bool CheckData() { return false; }  // TODO: Must be abstract method
+        protected bool AskExit()
+        {
+            DialogResult result = MessageBox.Show("La " + this.dataType + " ha sido modificada.\n" +
+                                                  "¿Estás seguro de que quieres salir?\n" +
+                                                  "Los cambios se perderán.", this.dataType + " modificada",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Warning,
+                                                  MessageBoxDefaultButton.Button1);
+            
+            if (result == DialogResult.No)
+                return false;
+            else
+                return true;
+        }
+        
+        protected virtual void btnOk_Click(object sender, EventArgs e)
+        {
+            if (!this.CheckData()) {
+                return;
+            }
+            
+            this.DialogResult = DialogResult.OK;
+            this.Modified = false;  // Changes saved
+            this.Close();
+        }
+      
+        protected virtual bool CheckData() { return false; }  // TODO: Must be abstract method.
+        
+        protected void ShowError(Control control, string msg)
+        {
+            control.BackColor = System.Drawing.Color.IndianRed;
+            MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 }

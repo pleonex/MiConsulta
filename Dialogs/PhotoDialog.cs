@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ListManagerControl.cs" company="none">
+// <copyright file="PhotoDialog.cs" company="none">
 // Copyright (C) 2013
 //
 //   This program is free software: you can redistribute it and/or modify
@@ -31,27 +31,35 @@ using System.IO;
 
 namespace MiConsulta
 {
-    public partial class ImageDialog : DataEditor
+    public partial class PhotoDialog : DataEditor
     {
         private const string DirName = "Images";
 
         private string tempPath = string.Empty;
         private string saveFile = string.Empty;
         
-        public ImageDialog()
+        public PhotoDialog()
+            : base("imagen")
         {
-            InitializeComponent();
-            this.Text = "Añadir imagen";
-            this.btnOk.Click += this.btnOk_Click;
+            Initialize();
             this.dateTimeBox.Value = DateTime.Now;
         }
         
-        public ImageDialog(Photo photo)
-            : base(photo)
+        public PhotoDialog(Photo photo)
+            : base("imagen", photo)
+        {
+            Initialize();
+            this.LoadData();
+        }
+        
+        private void Initialize()
         {
             InitializeComponent();
-            this.Text = "Editar imagen";
             this.btnOk.Click += this.btnOk_Click;
+            this.btnCancel.Click += this.btnExit_Click;
+            this.txtTitle.TextChanged += this.DataChanged;
+            this.txtName.TextChanged += this.DataChanged;   // Image changed
+            this.FormClosing += this.OnFormClosing;
         }
 
         protected override void LoadData(PatientData data)
@@ -60,16 +68,12 @@ namespace MiConsulta
             this.dateTimeBox.Value = photo.LastModification;
             this.txtTitle.Text = photo.Title;
             this.txtName.Text = Path.GetFileName(photo.Path);
+            this.saveFile = photo.Path;
         }
         
         public Photo Photo
         {
-            get {
-                if (string.IsNullOrEmpty(this.saveFile))
-                    throw new Exception("Window hasn't been closed yet");
-                
-                return new Photo(this.txtTitle.Text, this.saveFile);
-            }
+            get { return new Photo(this.txtTitle.Text, this.saveFile); }
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
@@ -88,12 +92,16 @@ namespace MiConsulta
             o.Dispose();
         }
 
-        private void ImageDialog_FormClosing(object sender, FormClosingEventArgs e)
+        protected override void btnOk_Click(object sender, EventArgs e)
         {
-            if (DialogResult != System.Windows.Forms.DialogResult.OK)
+            base.btnOk_Click(sender, e);
+            if (this.DialogResult == DialogResult.None)   // No save
                 return;
-
-            // Save file to program directory
+            
+            // Save image to program directory
+            if (string.IsNullOrEmpty(this.tempPath))    // Image no changed
+                return;
+                
             string outDir = Path.Combine(Application.StartupPath, DirName);
             if (!Directory.Exists(outDir))
                 Directory.CreateDirectory(outDir);
@@ -104,6 +112,24 @@ namespace MiConsulta
 
             File.Copy(this.tempPath, outFile);
             this.saveFile = outFile.Replace(Application.StartupPath, "");
+        }
+        
+        protected override bool CheckData()
+        {
+            this.txtTitle.BackColor = Color.White;
+            this.txtName.BackColor = Color.White;
+            
+            if (string.IsNullOrEmpty(this.txtTitle.Text)) {
+                this.ShowError(this.txtTitle, "El título no puede estar vacío.");
+                return false;
+            }
+            
+            if (string.IsNullOrEmpty(this.txtName.Text)) {
+                this.ShowError(this.txtName, "No ha seleccionado ninguna imagen.");
+                return false;
+            }
+                        
+            return true;
         }
     }
 }

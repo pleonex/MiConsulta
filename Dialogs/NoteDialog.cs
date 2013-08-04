@@ -32,30 +32,35 @@ using System.Windows.Forms;
 namespace MiConsulta
 {
     public partial class NoteDialog : DataEditor
-    {
-        private bool loading  = false;
-        private bool modified = false;
-        
+    {       
         public NoteDialog()
+            : base("nota")
         {
-            InitializeComponent();
-            this.Text = "Añadir nota";
+            Initialize();
         }
 
         public NoteDialog(Note note)
-            : base(note)
+            : base("nota", note)
         {
-            InitializeComponent();
-            this.Text = "Editar nota";
+            Initialize();
+            this.LoadData();
         }
 
+        private void Initialize()
+        {
+            InitializeComponent();
+            this.txtNoteMsg.TextChanged += this.DataChanged;
+            this.txtNoteTitle.TextChanged += this.DataChanged;
+            this.btnOk.Click += this.btnOk_Click;
+            this.btnCancel.Click += this.btnExit_Click;
+            this.FormClosing += this.OnFormClosing;
+        }
+        
         protected override void LoadData(PatientData data)
         {
             Note note = (Note)data;
-            this.loading = true;
             this.txtNoteMsg.Text = note.Message;
             this.txtNoteTitle.Text = note.Title;
-            this.loading = false;
         }
         
         public Note Note
@@ -63,6 +68,24 @@ namespace MiConsulta
             get { return new Note(this.txtNoteTitle.Text, this.txtNoteMsg.Text); }
         }
 
+        protected override bool CheckData()
+        {
+            this.txtNoteTitle.BackColor = Color.White;
+            this.txtNoteMsg.BackColor = Color.White;
+            
+            if (string.IsNullOrEmpty(this.txtNoteMsg.Text)) {
+                this.ShowError(this.txtNoteMsg, "El mensaje no puede estar vacío.");
+                return false;
+            }
+            
+            if (string.IsNullOrEmpty(this.txtNoteTitle.Text)) {
+                this.ShowError(this.txtNoteTitle, "El título no puede estar vacío.");
+                return false;
+            }
+            
+            return true;
+        }
+        
         private void NoteDialog_Resize(object sender, EventArgs e)
         {
             this.txtNoteTitle.Width = this.Width  - 22;
@@ -71,38 +94,5 @@ namespace MiConsulta
             this.btnCancel.Location = new Point(this.btnCancel.Location.X, this.Height - 69);
             this.btnOk.Location     = new Point(this.Width - 90, this.Height - 69);
         } 
-        
-        private void TxtTextChanged(object sender, EventArgs e)
-        {
-            if (this.loading)
-                return;
-            
-            this.modified = true;
-            this.Text += " (modificada)";
-        }
-        
-        private void BtnCancelClick(object sender, EventArgs e)
-        {
-            if (this.modified) {
-                DialogResult result = MessageBox.Show("La nota ha sido modificada.\n" +
-                                                      "¿Estás seguro de que quieres salir?\n" +
-                                                      "Los cambios se perderán.", "Nota modificada",
-                                                      MessageBoxButtons.YesNo,
-                                                      MessageBoxIcon.Warning,
-                                                      MessageBoxDefaultButton.Button1);
-                
-                if (result == DialogResult.No)
-                    return;
-            }
-            
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
-        
-        private void BtnOkClick(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
     }
 }

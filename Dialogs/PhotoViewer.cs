@@ -34,17 +34,18 @@ using System.IO;
 
 namespace MiConsulta
 {
-    public partial class ImageViewer : DataForm
+    public partial class PhotoViewer : DataForm
     {
-        public ImageViewer()
+        public PhotoViewer()
         {
             InitializeComponent();
         }
-        public ImageViewer(Photo photo)
+        public PhotoViewer(Photo photo)
             : base(photo)
         {
             InitializeComponent();
             this.btnClose.Click += delegate { this.Close(); };
+            this.LoadData();
         }
 
         protected override void LoadData(PatientData data)

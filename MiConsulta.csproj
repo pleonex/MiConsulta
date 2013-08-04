@@ -86,17 +86,17 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ImageDialog.cs">
+    <Compile Include="Dialogs\PhotoDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\ImageDialog.Designer.cs">
-      <DependentUpon>ImageDialog.cs</DependentUpon>
+    <Compile Include="Dialogs\PhotoDialog.Designer.cs">
+      <DependentUpon>PhotoDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ImageViewer.cs">
+    <Compile Include="Dialogs\PhotoViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\ImageViewer.Designer.cs">
-      <DependentUpon>ImageViewer.cs</DependentUpon>
+    <Compile Include="Dialogs\PhotoViewer.Designer.cs">
+      <DependentUpon>PhotoViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ListManagerControl.cs">
       <SubType>UserControl</SubType>
@@ -132,11 +132,11 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\ImageDialog.resx">
-      <DependentUpon>ImageDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Dialogs\PhotoDialog.resx">
+      <DependentUpon>PhotoDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\ImageViewer.resx">
-      <DependentUpon>ImageViewer.cs</DependentUpon>
+    <EmbeddedResource Include="Dialogs\PhotoViewer.resx">
+      <DependentUpon>PhotoViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ListManagerControl.resx">
       <DependentUpon>ListManagerControl.cs</DependentUpon>
