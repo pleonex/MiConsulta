@@ -71,8 +71,7 @@ namespace MiConsulta
             this.saveFile = photo.Path;
         }
         
-        public Photo Photo
-        {
+        public override PatientData Data {
             get { return new Photo(this.txtTitle.Text, this.saveFile); }
         }
 

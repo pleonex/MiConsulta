@@ -63,8 +63,7 @@ namespace MiConsulta
             this.txtNoteTitle.Text = note.Title;
         }
         
-        public Note Note
-        {
+        public override PatientData Data {
             get { return new Note(this.txtNoteTitle.Text, this.txtNoteMsg.Text); }
         }
 

@@ -39,9 +39,9 @@ namespace MiConsulta
         string email;
         string icon;
         List<sPhone> phones;
-        List<Note> notes;
         List<DateTime> appointments;
-        List<Photo> images;
+        List<Note> notes;
+        List<Photo> photos;
 
         string app_dir = System.Windows.Forms.Application.StartupPath + Path.DirectorySeparatorChar;
         XElement old_element;
@@ -73,9 +73,9 @@ namespace MiConsulta
             foreach (XElement e in element.Element("Appointments").Elements("Appointment"))
                 appointments.Add(DateTime.Parse(e.Value));
 
-            images = new List<Photo>();
+            photos = new List<Photo>();
             foreach (XElement e in element.Element("Images").Elements("Image"))
-                images.Add(new Photo(e));
+                photos.Add(new Photo(e));
         }
         public Patient()
         {
@@ -83,7 +83,7 @@ namespace MiConsulta
             phones = new List<sPhone>();
             notes = new List<Note>();
             appointments = new List<DateTime>();
-            images = new List<Photo>();
+            photos = new List<Photo>();
             old_element = ToXElement();
         }
 
@@ -113,8 +113,8 @@ namespace MiConsulta
             e.Add(a);
 
             XElement img = new XElement("Images");
-            for (int i = 0; i < images.Count; i++)
-                img.Add(images[i].ToXElement());
+            for (int i = 0; i < photos.Count; i++)
+                img.Add(photos[i].ToXElement());
             e.Add(img);
 
             return e;
@@ -291,11 +291,11 @@ namespace MiConsulta
             phones.Add(p);
         }
 
-        public int NotesLength
+        public Note[] GetNotes()
         {
-            get { return notes.Count; }
+            return this.notes.ToArray();
         }
-        public Note Get_Note(int i)
+        public Note GetNote(int i)
         {
             if (i < 0 || i >= notes.Count)
             {
@@ -305,118 +305,28 @@ namespace MiConsulta
 
             return notes[i];
         }
-        public void Set_Note(int i, Note note)
+        public int NotesLength
         {
-            if (i < 0 || i >= notes.Count)
-            {
-                Error("Invalid id " + i.ToString() + " in set note");
-                return;
-            }
-
-            notes[i] = note;
+            get { return notes.Count; }
         }
-        public void Add_Note(Note note)
+        
+        public Photo[] GetPhotos()
         {
-            notes.Add(note);
+            return this.photos.ToArray();
         }
-        public void Note_Up(int i)
+        public Photo GetPhoto(int i)
         {
-            if (i <= 0)
-            {
-                Error("You can't up this note");
-                return;
-            }
-
-            Note note = notes[i];
-            notes.RemoveAt(i);
-            notes.Insert(i - 1, note);
-        }
-        public void Note_Down(int i)
-        {
-            if (i >= notes.Count - 1)
-            {
-                Error("You can't up this note");
-                return;
-            }
-
-            Note note = notes[i];
-            notes.RemoveAt(i);
-            notes.Insert(i + 1, note);
-        }
-        public void Remove_Note(int i)
-        {
-            if (i < 0 || i >= notes.Count)
-            {
-                Error("Invalid id " + i.ToString() + " in remove note");
-                return;
-            }
-
-            notes.RemoveAt(i);
-            Error("Removing note at " + i.ToString());
-        }
-
-        public int ImagesLength
-        {
-            get { return images.Count; }
-        }
-        public Photo Get_Image(int i)
-        {
-            if (i < 0 || i >= images.Count)
+            if (i < 0 || i >= photos.Count)
             {
                 Error("Invalid id " + i.ToString() + " in get image");
                 return null;
             }
 
-            return images[i];
+            return photos[i];
         }
-        public void Set_Image(int i, Photo image)
+        public int PhotosLength
         {
-            if (i < 0 || i >= images.Count)
-            {
-                Error("Invalid id " + i.ToString() + " in set image");
-                return;
-            }
-
-            images[i] = image;
-        }
-        public void Add_Image(Photo image)
-        {
-            images.Add(image);
-        }
-        public void Image_Up(int i)
-        {
-            if (i <= 0)
-            {
-                Error("You can't up this note");
-                return;
-            }
-
-            Photo image = images[i];
-            images.RemoveAt(i);
-            images.Insert(i - 1, image);
-        }
-        public void Image_Down(int i)
-        {
-            if (i >= images.Count - 1)
-            {
-                Error("You can't up this note");
-                return;
-            }
-
-            Photo image = images[i];
-            images.RemoveAt(i);
-            images.Insert(i + 1, image);
-        }
-        public void Remove_Image(int i)
-        {
-            if (i < 0 || i >= images.Count)
-            {
-                Error("Invalid id " + i.ToString() + " in remove image");
-                return;
-            }
-
-            images.RemoveAt(i);
-            Error("Removing image at " + i.ToString());
+            get { return photos.Count; }
         }
 
         public int AppointmentsLength

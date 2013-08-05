@@ -36,12 +36,12 @@ namespace MiConsulta
 {
     public partial class Form1 : Form
     {
-        StringBuilder sb;
-        bool stop;
+        private StringBuilder sb;
 
-        Database db;
-        string db_path = Application.StartupPath + Path.DirectorySeparatorChar;
-        int currId;
+        private Database db;
+        private static string DbPath = Path.Combine(Application.StartupPath, "Database.xml");
+        private static string BackupDbPath = Path.Combine(Application.StartupPath, "backup_database.xml");
+        private int currId;
 
         public Form1()
         {
@@ -59,7 +59,7 @@ namespace MiConsulta
         private void Form1_Load(object sender, EventArgs e)
         {
             // Read (or create) database
-            db = new Database(db_path + "Database.xml");
+            db = new Database(DbPath);
             currId = -1;
             this.radioSHistory.Checked = true;
             this.lblNumPatient.Text = "Número de pacientes registrados: " + db.PatientLength.ToString();
@@ -71,8 +71,13 @@ namespace MiConsulta
         {
             if (patientDetails1.Patient.IsEdited)
             {
-                DialogResult ask = MessageBox.Show("Los datos del paciente han sido modificados pero no guardados.\n" +
-                    "¿Desea guardarlos antes de salir?", "Datos no guardados", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                DialogResult ask = MessageBox.Show(
+                    "Los datos del paciente han sido modificados pero no guardados.\n¿Desea guardarlos antes de salir?",
+                    "Datos no guardados",
+                    MessageBoxButtons.YesNo, 
+                    MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button2);
+                
                 if (ask == System.Windows.Forms.DialogResult.Yes)
                     db.Modify(currId, patientDetails1.Patient);
             }
@@ -91,30 +96,27 @@ namespace MiConsulta
             lblTitle.Text = "¡Bienvenido a MiConsulta! ~ " + DateTime.Now.ToString();
             timerTime.Tag = (int)timerTime.Tag + 1;
 
-            if ((int)timerTime.Tag == 300)
+            if ((int)timerTime.Tag % 300 == 0)
                 Save_DB();
 
             Update_Debug();
         }
         private void Save_DB()
         {
-            db.Write(db_path + "Database.xml");
+            db.Write(DbPath);
             Update_Debug();
         }
         private void Create_BackUp()
         {
-            FileInfo db_file = new FileInfo(db_path + "Database.xml");
-            if (db_file.Exists)
-            {
-                FileInfo backup = new FileInfo(db_path + "backup_database.xml");
+            FileInfo db_file = new FileInfo(DbPath);
+            if (db_file.Exists) {
+                FileInfo backup = new FileInfo(BackupDbPath);
 
                 if (backup.Exists && backup.Attributes == FileAttributes.Hidden)
                     backup.Attributes = FileAttributes.Normal;
-                db_file.CopyTo(db_path + "backup_database.xml", true);
+                db_file.CopyTo(BackupDbPath, true);
                 backup.Attributes = FileAttributes.Hidden;
-                backup = null;
             }
-            db_file = null;
         }
 
         private int Get_Type()
@@ -162,7 +164,11 @@ namespace MiConsulta
         {
             if (patientDetails1.Patient.IsNull)
             {
-                MessageBox.Show("Por favor rellene al menos los campos de nº de historia y nombre.", "Paciente vacío", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Por favor rellene al menos los campos de nº de historia y nombre.",
+                    "Paciente vacío",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 return;
             }
 
@@ -179,7 +185,11 @@ namespace MiConsulta
         {
             if (patientDetails1.Patient.IsNull)
             {
-                MessageBox.Show("Por favor rellene al menos los campos de nº de historia y nombre.", "Paciente vacío", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Por favor rellene al menos los campos de nº de historia y nombre.",
+                    "Paciente vacío",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 return;
             }
 
@@ -197,7 +207,7 @@ namespace MiConsulta
             db.Remove(currId);
             currId = -1;
             Save_DB();
-            patientDetails1.CleanFields();
+            patientDetails1.Reset();
 
             btnRemovePerson.Enabled = false;
             btnSavePerson.Enabled = false;
@@ -213,7 +223,7 @@ namespace MiConsulta
                     return;
             }
 
-            patientDetails1.CleanFields();
+            patientDetails1.Reset();
             btnRemovePerson.Enabled = false;
             btnSavePerson.Enabled = false;
         }

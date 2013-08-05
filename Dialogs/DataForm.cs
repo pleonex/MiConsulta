@@ -24,7 +24,7 @@ using System.Windows.Forms;
 
 namespace MiConsulta
 {
-    public class DataForm : Form // TODO: MUST be abstract class, but makes problems to the UI Designer
+    public abstract class DataForm : Form 
     {
         private PatientData data;
         
@@ -52,6 +52,6 @@ namespace MiConsulta
             this.Loading = false;
         }
         
-        protected virtual void LoadData(PatientData data) {}    // TODO: Must be abstract method.
+        protected abstract void LoadData(PatientData data);
     }
 }

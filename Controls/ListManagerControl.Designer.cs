@@ -77,6 +77,8 @@ namespace MiConsulta
             this.listObjs.Name = "listObjs";
             this.listObjs.Size = new System.Drawing.Size(205, 160);
             this.listObjs.TabIndex = 44;
+            this.listObjs.SelectedIndexChanged += new System.EventHandler(this.ListObjsSelectedIndexChanged);
+            this.listObjs.DoubleClick += new System.EventHandler(this.BtnViewClick);
             // 
             // btnImgList
             // 
@@ -102,6 +104,7 @@ namespace MiConsulta
             this.btnRemove.Size = new System.Drawing.Size(30, 23);
             this.btnRemove.TabIndex = 41;
             this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.BtnRemoveClick);
             // 
             // btnEdit
             // 
@@ -111,6 +114,7 @@ namespace MiConsulta
             this.btnEdit.Size = new System.Drawing.Size(30, 23);
             this.btnEdit.TabIndex = 40;
             this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.BtnEditClick);
             // 
             // btnAdd
             // 
@@ -120,6 +124,7 @@ namespace MiConsulta
             this.btnAdd.Size = new System.Drawing.Size(30, 23);
             this.btnAdd.TabIndex = 38;
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.BtnAddClick);
             // 
             // btnDown
             // 
@@ -129,6 +134,7 @@ namespace MiConsulta
             this.btnDown.Size = new System.Drawing.Size(30, 23);
             this.btnDown.TabIndex = 43;
             this.btnDown.UseVisualStyleBackColor = true;
+            this.btnDown.Click += new System.EventHandler(this.BtnDownClick);
             // 
             // btnUp
             // 
@@ -138,6 +144,7 @@ namespace MiConsulta
             this.btnUp.Size = new System.Drawing.Size(30, 23);
             this.btnUp.TabIndex = 42;
             this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.Click += new System.EventHandler(this.BtnUpClick);
             // 
             // ListManagerControl
             // 

@@ -175,7 +175,7 @@ namespace MiConsulta
                     case 4: s.Add(patients[i].Email); break;
                     case 5:
                         for (int n = 0; n < patients[i].NotesLength; n++)
-                            s.Add(patients[i].Get_Note(n).Title + " (" + patients[i].Name + ')');
+                            s.Add(patients[i].GetNote(n).Title + " (" + patients[i].Name + ')');
                         break;
                     case 6: s.Add(patients[i].Get_LastAppointment().ToString()); break;
                     case 7: s.Add(patients[i].Get_NextAppointment().ToString()); break;
@@ -200,7 +200,7 @@ namespace MiConsulta
                     case 4: if (patients[i].Email == value) return i; break;
                     case 5:
                         for (int n = 0; n < patients[i].NotesLength; n++)
-                            if (patients[i].Get_Note(n).Title + " (" + patients[i].Name + ')' == value)
+                            if (patients[i].GetNote(n).Title + " (" + patients[i].Name + ')' == value)
                                 return i;
                         break;
                     case 6: if (patients[i].Get_LastAppointment().ToString() == value) return i; break;

@@ -27,7 +27,7 @@ namespace MiConsulta
     /// <summary>
     /// Description of IDataEditor.
     /// </summary>
-    public class DataEditor : DataForm  // TODO: MUST be abstract class, but makes problems to the UI Designer
+    public abstract class DataEditor : DataForm
     {        
         private string dataType;
         
@@ -52,6 +52,10 @@ namespace MiConsulta
             private set;
         }
         
+        public abstract PatientData Data {
+            get;
+        }
+        
         protected void DataChanged(object sender, EventArgs e)
         {
             if (this.Loading)
@@ -64,15 +68,14 @@ namespace MiConsulta
         
         protected virtual void OnFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this.Modified && !this.AskExit())
+            if (this.Modified && !this.AskExit()) {
                 e.Cancel = true;
+                this.DialogResult = DialogResult.None;
+            }
         }
         
         protected virtual void btnExit_Click(object sender, EventArgs e)
         {
-            if (this.Modified && !this.AskExit())
-                return;
-            
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
@@ -103,7 +106,7 @@ namespace MiConsulta
             this.Close();
         }
       
-        protected virtual bool CheckData() { return false; }  // TODO: Must be abstract method.
+        protected abstract bool CheckData();
         
         protected void ShowError(Control control, string msg)
         {
