@@ -69,17 +69,40 @@ namespace MiConsulta
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            string msgEdit = "Los datos del paciente han sido modificados pero no guardados.\n¿Desea guardarlos antes de salir?";
+            string msgCreate = "El paciente nuevo no ha sido añadido a la base de datos. ¿Desea añadirlo antes de salir?";
+            
             if (patientDetails1.Patient.IsEdited)
             {
                 DialogResult ask = MessageBox.Show(
-                    "Los datos del paciente han sido modificados pero no guardados.\n¿Desea guardarlos antes de salir?",
+                    (currId == -1) ? msgCreate : msgEdit,
                     "Datos no guardados",
                     MessageBoxButtons.YesNo, 
                     MessageBoxIcon.Question,
                     MessageBoxDefaultButton.Button1);
-                
-                if (ask == System.Windows.Forms.DialogResult.Yes)
-                    db.Modify(currId, patientDetails1.Patient);
+                                             
+                if (ask == System.Windows.Forms.DialogResult.Yes) {
+                   
+                    if (patientDetails1.Patient.IsNull) {
+                        MessageBox.Show(
+                            "Por favor rellene al menos los campos de número de historia y nombre.",
+                            "Paciente vacío",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                        e.Cancel = true;
+                        return;
+                    }
+                    
+                    if (this.CheckDuplicate()) {
+                        e.Cancel = true;
+                        return;
+                    }
+                    
+                    if (currId == -1)
+                        currId = db.Add(patientDetails1.Patient);
+                    else
+                        db.Modify(currId, patientDetails1.Patient);
+                }
             }
 
             Save_DB();
@@ -176,6 +199,9 @@ namespace MiConsulta
                 return;
             }
 
+            if (this.CheckDuplicate())
+                return;
+            
             currId = db.Add(patientDetails1.Patient);
             patientDetails1.Patient.IsEdited = false;
             Save_DB();
@@ -197,6 +223,9 @@ namespace MiConsulta
                 return;
             }
 
+            if (this.CheckDuplicate())
+                return;
+            
             db.Modify(currId, patientDetails1.Patient);
             patientDetails1.Patient.IsEdited = false;
             Save_DB();
@@ -239,7 +268,33 @@ namespace MiConsulta
             btnRemovePerson.Enabled = false;
             btnSavePerson.Enabled = false;
         }
-
+        private bool CheckDuplicate()
+        {
+            string msg = "La base de datos contiene ya un paciente con ese {0}. " +
+                          "Introduzca un {0} diferente para añadir un paciente nuevo " +
+                          "o busque el actual para editarlo.";
+                
+            int idx = db.Search(0, patientDetails1.Patient.History);
+            if (idx != -1 && idx != currId) {
+                MessageBox.Show(string.Format(msg, "número de historia"),
+                                "Paciente existente",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return true;
+            }
+            
+            idx = db.Search(1, patientDetails1.Patient.Name);
+            if (idx != -1 && idx != currId) {
+                MessageBox.Show(string.Format(msg, "nombre"),
+                                "Paciente existente",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return true;
+            }
+            
+            return false;
+        }
+        
         private void picInternet_Click(object sender, EventArgs e)
         {
             if (!backIntrenet.IsBusy)
