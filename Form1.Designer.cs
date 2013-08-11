@@ -214,10 +214,10 @@ namespace MiConsulta
             this.radioSTratamientos.AutoSize = true;
             this.radioSTratamientos.Location = new System.Drawing.Point(227, 89);
             this.radioSTratamientos.Name = "radioSTratamientos";
-            this.radioSTratamientos.Size = new System.Drawing.Size(114, 17);
+            this.radioSTratamientos.Size = new System.Drawing.Size(86, 17);
             this.radioSTratamientos.TabIndex = 6;
             this.radioSTratamientos.Tag = "5";
-            this.radioSTratamientos.Text = "Tratamiento (título)";
+            this.radioSTratamientos.Text = "Notas (título)";
             this.radioSTratamientos.UseVisualStyleBackColor = true;
             this.radioSTratamientos.CheckedChanged += new System.EventHandler(this.radioSearch_CheckedChanged);
             // 
@@ -368,7 +368,7 @@ namespace MiConsulta
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Plum;
-            this.ClientSize = new System.Drawing.Size(970, 527);
+            this.ClientSize = new System.Drawing.Size(968, 527);
             this.Controls.Add(this.lblNumPatient);
             this.Controls.Add(this.picInternet);
             this.Controls.Add(this.lblTitle);

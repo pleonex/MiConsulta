@@ -76,7 +76,7 @@ namespace MiConsulta
                     "Datos no guardados",
                     MessageBoxButtons.YesNo, 
                     MessageBoxIcon.Question,
-                    MessageBoxDefaultButton.Button2);
+                    MessageBoxDefaultButton.Button1);
                 
                 if (ask == System.Windows.Forms.DialogResult.Yes)
                     db.Modify(currId, patientDetails1.Patient);
@@ -137,8 +137,12 @@ namespace MiConsulta
         {
             if (patientDetails1.Patient.IsEdited)
             {
-                DialogResult ask = MessageBox.Show("Los datos del paciente han sido modificados pero no guardados.\n" +
-                    "¿Desea continuar con la búsqueda?", "Datos no guardados", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                DialogResult ask = MessageBox.Show(
+                    "Los datos del paciente han sido modificados pero no guardados.\n¿Desea continuar con la búsqueda?",
+                    "Datos no guardados",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button2);
                 if (ask == System.Windows.Forms.DialogResult.No)
                     return;
             }
@@ -199,8 +203,12 @@ namespace MiConsulta
         }
         private void btnRemovePerson_Click(object sender, EventArgs e)
         {
-            DialogResult ask = MessageBox.Show("¿Estás seguro de que quieres borrar el paciente actual?", "Borrar paciente",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            DialogResult ask = MessageBox.Show(
+                "¿Estás seguro de que quieres borrar el paciente actual?",
+                "Borrar paciente",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2);
             if (ask != System.Windows.Forms.DialogResult.Yes)
                 return;
 
@@ -217,8 +225,12 @@ namespace MiConsulta
         {
             if (patientDetails1.Patient.IsEdited)
             {
-                DialogResult ask = MessageBox.Show("Los datos del paciente han sido modificados pero no guardados.\n" +
-                    "¿Está seguro de limpiar los campos?", "Datos no guardados", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                DialogResult ask = MessageBox.Show(
+                    "Los datos del paciente han sido modificados pero no guardados.\n¿Está seguro de limpiar los campos?",
+                    "Datos no guardados",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button2);
                 if (ask == System.Windows.Forms.DialogResult.No)
                     return;
             }

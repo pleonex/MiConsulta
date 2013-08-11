@@ -60,6 +60,9 @@ namespace MiConsulta
             txtMobile.Text  = "";
             txtEmail.Text   = "";
             txtAddress.Text = "";
+            txtZipCode.Text = "";
+            txtCity.Text    = "";
+            txtCountry.Text = "";
 
             dateTimeNextAppoint.Value = DateTime.Now;
             dateTimeNextAppoint.Checked = false;
@@ -86,6 +89,9 @@ namespace MiConsulta
             txtAddress.Text = this.Patient.Address;
             txtPhone.Text   = this.Patient.Get_Phone(Phone_Type.Landline).number;
             txtMobile.Text  = this.Patient.Get_Phone(Phone_Type.Mobile).number;
+            txtZipCode.Text = this.Patient.ZipCode;
+            txtCity.Text    = this.Patient.City;
+            txtCountry.Text = this.Patient.Country;
 
             DateTime dt = this.Patient.Get_NextAppointment();
             if (dt.Year == 1) {
@@ -99,8 +105,8 @@ namespace MiConsulta
             for (int i = 0; i < this.Patient.AppointmentsLength; i++)
                 listAppointment.Items.Add(this.Patient.Get_Appointment(i).ToString());
 
-            this.listNotes.AddElements(this.Patient.GetNotes());
-            this.listPhotos.AddElements(this.Patient.GetPhotos());
+            this.listNotes.SetElements(this.Patient.GetNotes());
+            this.listPhotos.SetElements(this.Patient.GetPhotos());
             
             if (System.IO.File.Exists(this.Patient.Icon))
                 picPhoto.Image = Image.FromFile(this.Patient.Icon);
@@ -142,6 +148,9 @@ namespace MiConsulta
             this.Patient.Name    = txtName.Text;
             this.Patient.Email   = txtEmail.Text;
             this.Patient.Address = txtAddress.Text;
+            this.Patient.ZipCode = txtZipCode.Text;
+            this.Patient.City    = txtCity.Text;
+            this.Patient.Country = txtCountry.Text;
             this.Patient.Set_Phone(Phone_Type.Landline, txtPhone.Text);
             this.Patient.Set_Phone(Phone_Type.Mobile, txtMobile.Text);
 
@@ -211,6 +220,7 @@ namespace MiConsulta
                 btnEditVisit.Enabled = false;
                 btnRemoveVisit.Enabled = false;
             }
+            this.Update_Appointment();
             noUpdate = false;
         }
         private void listAppointment_SelectedIndexChanged(object sender, EventArgs e)
@@ -223,6 +233,15 @@ namespace MiConsulta
             btnRemoveVisit.Enabled = true;
             dateTimeAppointment.Value = this.Patient.Get_Appointment(listAppointment.SelectedIndex);
             noUpdate = false;
+        }
+        
+        private void ListNotesChanged()
+        {
+            this.Patient.SetNotes(this.listNotes.GetElements());
+        }        
+        private void ListPhotosChanged()
+        {
+            this.Patient.SetPhotos(this.listPhotos.GetElements());
         }
     }
 }

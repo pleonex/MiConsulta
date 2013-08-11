@@ -54,6 +54,12 @@ namespace MiConsulta
         {
             this.components = new System.ComponentModel.Container();
             this.groupDetails = new System.Windows.Forms.GroupBox();
+            this.txtCountry = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtCity = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtZipCode = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.listPhotos = new MiConsulta.ListManagerControl();
             this.listNotes = new MiConsulta.ListManagerControl();
             this.dateTimeAppointment = new System.Windows.Forms.DateTimePicker();
@@ -85,6 +91,12 @@ namespace MiConsulta
             // groupDetails
             // 
             this.groupDetails.BackColor = System.Drawing.Color.Transparent;
+            this.groupDetails.Controls.Add(this.txtCountry);
+            this.groupDetails.Controls.Add(this.label3);
+            this.groupDetails.Controls.Add(this.txtCity);
+            this.groupDetails.Controls.Add(this.label2);
+            this.groupDetails.Controls.Add(this.txtZipCode);
+            this.groupDetails.Controls.Add(this.label1);
             this.groupDetails.Controls.Add(this.listPhotos);
             this.groupDetails.Controls.Add(this.listNotes);
             this.groupDetails.Controls.Add(this.dateTimeAppointment);
@@ -115,6 +127,57 @@ namespace MiConsulta
             this.groupDetails.TabStop = false;
             this.groupDetails.Text = "Detalles del paciente";
             // 
+            // txtCountry
+            // 
+            this.txtCountry.Location = new System.Drawing.Point(519, 71);
+            this.txtCountry.Name = "txtCountry";
+            this.txtCountry.Size = new System.Drawing.Size(158, 20);
+            this.txtCountry.TabIndex = 44;
+            this.txtCountry.TextChanged += new System.EventHandler(this.txt_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(439, 74);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 13);
+            this.label3.TabIndex = 43;
+            this.label3.Text = "País:";
+            // 
+            // txtCity
+            // 
+            this.txtCity.Location = new System.Drawing.Point(519, 45);
+            this.txtCity.Name = "txtCity";
+            this.txtCity.Size = new System.Drawing.Size(158, 20);
+            this.txtCity.TabIndex = 42;
+            this.txtCity.TextChanged += new System.EventHandler(this.txt_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(439, 48);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(43, 13);
+            this.label2.TabIndex = 41;
+            this.label2.Text = "Ciudad:";
+            // 
+            // txtZipCode
+            // 
+            this.txtZipCode.Location = new System.Drawing.Point(519, 19);
+            this.txtZipCode.Name = "txtZipCode";
+            this.txtZipCode.Size = new System.Drawing.Size(158, 20);
+            this.txtZipCode.TabIndex = 40;
+            this.txtZipCode.TextChanged += new System.EventHandler(this.txt_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(439, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(74, 13);
+            this.label1.TabIndex = 39;
+            this.label1.Text = "Código postal:";
+            // 
             // listPhotos
             // 
             this.listPhotos.BackColor = System.Drawing.Color.Transparent;
@@ -126,6 +189,7 @@ namespace MiConsulta
             this.listPhotos.TabIndex = 38;
             this.listPhotos.Title = "Imágenes:";
             this.listPhotos.ViewerType = "MiConsulta.PhotoViewer";
+            this.listPhotos.Changed += new MiConsulta.DataChangedEventHandler(this.ListPhotosChanged);
             // 
             // listNotes
             // 
@@ -138,6 +202,7 @@ namespace MiConsulta
             this.listNotes.TabIndex = 37;
             this.listNotes.Title = "Notas:";
             this.listNotes.ViewerType = "MiConsulta.NoteDialog";
+            this.listNotes.Changed += new MiConsulta.DataChangedEventHandler(this.ListNotesChanged);
             // 
             // dateTimeAppointment
             // 
@@ -356,6 +421,12 @@ namespace MiConsulta
             ((System.ComponentModel.ISupportInitialize)(this.picPhoto)).EndInit();
             this.ResumeLayout(false);
         }
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtZipCode;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtCity;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtCountry;
         private MiConsulta.ListManagerControl listNotes;
         private MiConsulta.ListManagerControl listPhotos;
 

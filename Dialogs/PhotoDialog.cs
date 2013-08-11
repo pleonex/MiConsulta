@@ -110,7 +110,7 @@ namespace MiConsulta
                 outFile = Path.Combine(outDir, Path.GetRandomFileName() + '_' + txtName.Text);
 
             File.Copy(this.tempPath, outFile);
-            this.saveFile = outFile.Replace(Application.StartupPath, "");
+            this.saveFile = outFile.Remove(0, Application.StartupPath.Length + 1);
         }
         
         protected override bool CheckData()

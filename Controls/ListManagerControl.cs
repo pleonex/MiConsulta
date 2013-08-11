@@ -29,6 +29,8 @@ using System.Windows.Forms;
 
 namespace MiConsulta
 {
+    public delegate void DataChangedEventHandler();
+    
     /// <summary>
     /// Description of ListManagerControl.
     /// </summary>
@@ -46,6 +48,13 @@ namespace MiConsulta
             this.Clear();
         }
         
+        public event DataChangedEventHandler Changed;
+        
+        protected virtual void OnChanged()
+        {
+            if (Changed != null)
+                Changed();
+        }
         
         public string Title {
             get { return this.title; }
@@ -81,6 +90,13 @@ namespace MiConsulta
         public PatientData[] GetElements()
         {
             return this.elements.ToArray();
+        }
+        
+        public void SetElements(PatientData[] elements)
+        {
+            this.Clear();
+            this.elements.AddRange(elements);
+            this.UpdateList();
         }
         
         
@@ -179,6 +195,7 @@ namespace MiConsulta
                 throw new IndexOutOfRangeException("No element selected");
             
             DataForm dialog = (DataForm)Activator.CreateInstance(this.viewer, el);
+            dialog.Tag = "Read-Only";
             dialog.ShowDialog();
             dialog.Dispose();
         }
@@ -193,6 +210,7 @@ namespace MiConsulta
                 
                 this.UpdateList();
                 this.listObjs.SelectedItem = newData;
+                this.OnChanged();
             }
             
             dialog.Dispose();
@@ -209,6 +227,7 @@ namespace MiConsulta
             if (dialog.ShowDialog() == DialogResult.OK) {
                 this.elements[index] = dialog.Data;
                 this.listObjs.Items[index] = this.elements[index];
+                this.OnChanged();
             }
             
             dialog.Dispose();
@@ -224,6 +243,7 @@ namespace MiConsulta
             this.UpdateList();
             if (this.elements.Count > 0 && index > 0)
                 this.listObjs.SelectedIndex = index - 1;
+            this.OnChanged();
         }
         
         private void BtnUpClick(object sender, EventArgs e)
@@ -236,6 +256,7 @@ namespace MiConsulta
             
             this.UpdateList();
             this.listObjs.SelectedIndex--;
+            this.OnChanged();
         }
         
         private void BtnDownClick(object sender, EventArgs e)
@@ -248,6 +269,7 @@ namespace MiConsulta
             
             this.UpdateList();
             this.listObjs.SelectedIndex++;
+            this.OnChanged();
         }
     }
 }

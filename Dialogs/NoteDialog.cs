@@ -54,6 +54,15 @@ namespace MiConsulta
             this.btnOk.Click += this.btnOk_Click;
             this.btnCancel.Click += this.btnExit_Click;
             this.FormClosing += this.OnFormClosing;
+            this.Shown += delegate
+            {
+                if ((string)this.Tag == "Read-Only") {
+                    this.btnCancel.Hide();
+                    this.btnOk.Text = "Ok";
+                    this.txtNoteMsg.ReadOnly = true;
+                    this.txtNoteTitle.ReadOnly = true;
+                }
+            };
         }
         
         protected override void LoadData(PatientData data)

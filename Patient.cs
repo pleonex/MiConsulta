@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------------
 // <copyright file="Patient.cs" company="none">
-
-// Copyright (C) 2012
+// Copyright (C) 2013
 //
 //   This program is free software: you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as published by 
@@ -17,7 +16,6 @@
 //   along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 //
 // </copyright>
-
 // <author>pleoNeX</author>
 // <email>benito356@gmail.com</email>
 // <date>07/09/2012 2:05:00</date>
@@ -33,69 +31,61 @@ namespace MiConsulta
 {
     public class Patient : ICloneable
     {
-        string name;
-        string history;
-        string address;
-        string email;
-        string icon;
-        List<sPhone> phones;
-        List<DateTime> appointments;
-        List<Note> notes;
-        List<Photo> photos;
+        private string icon;
+        private List<sPhone> phones = new List<sPhone>();
+        private List<DateTime> appointments = new List<DateTime>();
+        private List<Note> notes = new List<Note>();
+        private List<Photo> photos = new List<Photo>();
 
-        string app_dir = System.Windows.Forms.Application.StartupPath + Path.DirectorySeparatorChar;
-        XElement old_element;
+        private static string AppDir = System.Windows.Forms.Application.StartupPath;
+        private XElement old_element;
 
+        public Patient()
+        {
+            old_element = ToXElement();
+        }
         public Patient(XElement element)
         {
-            if (element.Name != "Patient")
-            {
+            if (element.Name != "Patient") {
                 Error("Invalid element name: " + element.Name);
                 return;
             }
             this.old_element = element;
 
-            name = Get_XValue(element, "Name");
-            history = Get_XValue(element, "History");
-            address = Get_XValue(element, "Address");
-            email = Get_XValue(element, "Email");
-            icon = Get_XValue(element, "Icon");
+            this.Name    = Get_XValue(element, "Name");
+            this.History = Get_XValue(element, "History");
+            this.Address = Get_XValue(element, "Address");
+            this.Email   = Get_XValue(element, "Email");
+            this.icon    = Get_XValue(element, "Icon");
+            this.ZipCode = Get_XValue(element, "ZipCode");
+            this.City    = Get_XValue(element, "City");
+            this.Country = Get_XValue(element, "Country");
 
-            phones = new List<sPhone>();
             foreach (XElement e in element.Element("Phones").Elements("Phone"))
                 phones.Add(sPhone.Parse(e));
 
-            notes = new List<Note>();
             foreach (XElement e in element.Element("Notes").Elements("Note"))
                 notes.Add(new Note(e));
 
-            appointments = new List<DateTime>();
             foreach (XElement e in element.Element("Appointments").Elements("Appointment"))
                 appointments.Add(DateTime.Parse(e.Value));
 
-            photos = new List<Photo>();
             foreach (XElement e in element.Element("Images").Elements("Image"))
                 photos.Add(new Photo(e));
-        }
-        public Patient()
-        {
-            name = history = address = email = "";
-            phones = new List<sPhone>();
-            notes = new List<Note>();
-            appointments = new List<DateTime>();
-            photos = new List<Photo>();
-            old_element = ToXElement();
         }
 
         public XElement ToXElement()
         {
             XElement e = new XElement("Patient");
 
-            e.Add(new XElement("Name", name));
-            e.Add(new XElement("History", history));
-            e.Add(new XElement("Address", address));
-            e.Add(new XElement("Email", email));
-            e.Add(new XElement("Icon", icon));
+            e.Add(new XElement("Name",    this.Name));
+            e.Add(new XElement("History", this.History));
+            e.Add(new XElement("Address", this.Address));
+            e.Add(new XElement("Email",   this.Email));
+            e.Add(new XElement("Icon",    this.icon));
+            e.Add(new XElement("ZipCode", this.ZipCode));
+            e.Add(new XElement("City",    this.City));
+            e.Add(new XElement("Country", this.Country));
 
             XElement p = new XElement("Phones");
             for (int i = 0; i < phones.Count; i++)
@@ -119,87 +109,57 @@ namespace MiConsulta
 
             return e;
         }
-        public bool Compare_XElement(XElement a, XElement b)
-        {
-            if (a.Name != b.Name)
-                return false;
-            if (a.HasAttributes != b.HasAttributes)
-                return false;
-            if (a.HasElements != b.HasElements)
-                return false;
-            if (a.IsEmpty != b.IsEmpty)
-                return false;
-            if (a.NodeType != b.NodeType)
-                return false;
-            if (a.Value != b.Value)
-                return false;
-
-            List<XAttribute> att_a = new List<XAttribute>();
-            att_a.AddRange(a.Attributes());
-            List<XAttribute> att_b = new List<XAttribute>();
-            att_b.AddRange(b.Attributes());
-
-            if (att_a.Count != att_b.Count)
-                return false;
-            for (int i = 0; i < att_a.Count; i++)
-            {
-                if (att_a[i].Name != att_b[i].Name)
-                    return false;
-                if (att_a[i].Value != att_b[i].Value)
-                    return false;
-            }
-
-            List<XElement> list_a = new List<XElement>();
-            list_a.AddRange(a.Elements());
-            List<XElement> list_b = new List<XElement>();
-            list_b.AddRange(b.Elements());
-
-            if (list_a.Count != list_b.Count)
-                return false;
-            for (int i = 0; i < list_a.Count; i++)
-                if (!Compare_XElement(list_a[i], list_b[i]))
-                    return false;
-                    
-            return true;
-        }
-
-        #region Propiedades
+        
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get;
+            set;
         }
         public string History
         {
-            get { return history; }
-            set { history = value; }
+            get;
+            set;
         }
         public string Address
         {
-            get { return address; }
-            set { address = value; }
+            get;
+            set;
         }
         public string Email
         {
-            get { return email; }
-            set { email = value; }
+            get;
+            set;
         }
         public string Icon
         {
-            get { return app_dir + icon; }
+            get { return Path.Combine(AppDir, icon); }
             set
             {
-                string outp = app_dir + "Icon" + Path.DirectorySeparatorChar;
+                string outp = Path.Combine(AppDir, "Icon");
                 if (!Directory.Exists(outp))
                     Directory.CreateDirectory(outp);
 
-                if (File.Exists(outp + Path.GetFileName(value)))
-                    outp += Path.GetRandomFileName() + '_' + Path.GetFileName(value);
-                else
-                    outp += Path.GetFileName(value);
-                File.Copy(value, outp);
-                icon = outp.Replace(app_dir, "");
+                string outf = Path.Combine(outp, Path.GetFileName(value));
+                if (File.Exists(outf))
+                    outf = Path.Combine(outp, Path.GetRandomFileName() + '_' + Path.GetFileName(value));
+                File.Copy(value, outf);
+                icon = outf.Remove(0, AppDir.Length + 1);
             }
+        }
+        public string ZipCode
+        {
+            get;
+            set;
+        }
+        public string City
+        {
+            get;
+            set;
+        }
+        public string Country
+        {
+            get;
+            set;
         }
 
         public int PhonesLength
@@ -234,35 +194,6 @@ namespace MiConsulta
             }
 
             return p;
-        }
-        public sPhone Get_Phone(string number)
-        {
-            sPhone p = new sPhone();
-            for (int i = 0; i < phones.Count; i++)
-            {
-                if (phones[i].number == number)
-                {
-                    p = phones[i];
-                    break;
-                }
-            }
-
-            if (String.IsNullOrEmpty(p.number))
-            {
-                Console.WriteLine("Phone type doesn't found!");
-            }
-
-            return p;
-        }
-        public void Set_Phone(int i, sPhone p)
-        {
-            if (i < 0 || i >= phones.Count)
-            {
-                Error("Invalid id " + i.ToString() + " in set phone");
-                return;
-            }
-
-            phones[i] = p;
         }
         public void Set_Phone(Phone_Type type, string number)
         {
@@ -305,6 +236,12 @@ namespace MiConsulta
 
             return notes[i];
         }
+        public void SetNotes(PatientData[] notes)
+        {
+            this.notes.Clear();
+            foreach (PatientData note in notes)
+                this.notes.Add((Note)note);
+        }
         public int NotesLength
         {
             get { return notes.Count; }
@@ -323,6 +260,12 @@ namespace MiConsulta
             }
 
             return photos[i];
+        }
+        public void SetPhotos(PatientData[] photos)
+        {
+            this.photos.Clear();
+            foreach (PatientData photo in photos)
+                this.photos.Add((Photo)photo);
         }
         public int PhotosLength
         {
@@ -436,14 +379,56 @@ namespace MiConsulta
         {
             get
             {
-                if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(history))
+                if (String.IsNullOrEmpty(this.Name) || String.IsNullOrEmpty(this.History))
                     return true;
                 else
                     return false;
             }
         }
-        #endregion
 
+        private static bool Compare_XElement(XElement a, XElement b)
+        {
+            if (a.Name != b.Name)
+                return false;
+            if (a.HasAttributes != b.HasAttributes)
+                return false;
+            if (a.HasElements != b.HasElements)
+                return false;
+            if (a.IsEmpty != b.IsEmpty)
+                return false;
+            if (a.NodeType != b.NodeType)
+                return false;
+            if (a.Value != b.Value)
+                return false;
+
+            List<XAttribute> att_a = new List<XAttribute>();
+            att_a.AddRange(a.Attributes());
+            List<XAttribute> att_b = new List<XAttribute>();
+            att_b.AddRange(b.Attributes());
+
+            if (att_a.Count != att_b.Count)
+                return false;
+            for (int i = 0; i < att_a.Count; i++)
+            {
+                if (att_a[i].Name != att_b[i].Name)
+                    return false;
+                if (att_a[i].Value != att_b[i].Value)
+                    return false;
+            }
+
+            List<XElement> list_a = new List<XElement>();
+            list_a.AddRange(a.Elements());
+            List<XElement> list_b = new List<XElement>();
+            list_b.AddRange(b.Elements());
+
+            if (list_a.Count != list_b.Count)
+                return false;
+            for (int i = 0; i < list_a.Count; i++)
+                if (!Compare_XElement(list_a[i], list_b[i]))
+                    return false;
+                    
+            return true;
+        }
         public static string Get_XValue(XElement el, string name)
         {
             XElement e = el.Element(name);
